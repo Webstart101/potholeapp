@@ -4,7 +4,7 @@ This app will map the location of potholes
 
 ### To do
 
-- [ ] Add separate page routes for Login, Home and About (using [react-router](https://reactrouter.com/web/guides/quick-start))
+- [ ] Add separate page routes for Login, Home, Profile and About (using [react-router](https://reactrouter.com/web/guides/quick-start))
 - [ ] Add login page route (`/login`) with login form that allows user to sign in using email and password combination or by using Google sign-in. Build the form fields using [react-hook-form](https://react-hook-form.com/)
 - [ ] Authenticate the user using Firebase authentication (email/password)
 - [ ] Redirect the user to the `/home` route if they are logged-in
@@ -15,6 +15,7 @@ This app will map the location of potholes
 - [ ] List location of potholes on map (mapbox-gl)
 - [ ] List information of potholes in a scrollable list in sidebar
 - [ ] Display an 'About' page
+- [ ] Display a 'Profile' page with the user information (provided via user context)
 
 ### Libraries included
 
