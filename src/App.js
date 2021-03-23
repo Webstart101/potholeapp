@@ -1,21 +1,26 @@
-import React from "react";
-import Header from "./components/Header";
-import Map from "./components/Map";
+import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { AuthProvider } from './auth/Auth'
+import PrivateRoute from './PrivateRoute'
+
+import Home from './components/Home'
+import Login from './components/Login'
+import Register from './components/Register'
+import Landing from './components/Landing'
+import Profile from './components/Profile'
 
 function App() {
   return (
-    <div className="w-full flex flex-col h-screen bg-gray-300">
-      <Header title="Pothole App" />
-
-      <div className="w-full flex-1 flex">
-        <div className="w-1/6 bg-white">
-          <p>Sidebar</p>
-        </div>
-        <div className="w-5/6">
-          <Map />
-        </div>
-      </div>
-    </div>
+    <AuthProvider>
+      <Router>
+          <PrivateRoute exact path='/home' component={Home} />
+          <PrivateRoute exact path='/profile' component={Profile}/>
+          
+          <Route exact path='/' component={Landing} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register}/>
+      </Router>
+    </AuthProvider>
   );
 }
 
