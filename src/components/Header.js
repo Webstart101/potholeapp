@@ -1,4 +1,16 @@
+import {useAuth} from '../context/Auth';
+import {useHistory} from 'react-router-dom';
 const Header = ({ title }) => {
+  const {logout} = useAuth();
+  const history = useHistory();
+  async function handleLogout(){
+    try{
+ await logout();
+      history.push("/login")
+    }catch{
+     
+    }
+  }
   return (
     <nav className="bg-gray-800">
       <div className="container-xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -22,7 +34,7 @@ const Header = ({ title }) => {
                   href="/about"
                 >
                   About
-                </a>
+                </a>           
               </div>
             </div>
           </div>
@@ -55,7 +67,7 @@ const Header = ({ title }) => {
                 <li className="">
                   <a
                     className="w-full text-left rounded-b hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                    href="/signout"
+                     onClick={handleLogout}
                   >
                     Sign Out
                   </a>
