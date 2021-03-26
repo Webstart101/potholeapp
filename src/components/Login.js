@@ -41,9 +41,7 @@ const Login = () => {
         setLoading(false)
 
     }
-    function dbclick(){
-        alert("gggg")
-    }
+   
 
     async function googleSignIn(){
         auth.signInWithPopup(google)
