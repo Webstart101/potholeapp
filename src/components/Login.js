@@ -1,15 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useAuth } from '../context/Auth';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {loginContent} from '../static/index';
 import { auth, google } from '../Firebase';
 
 const schema = yup.object().shape({
-    email: yup.string().required("Invalid Email").email(),
-    password: yup.string().required("Invalid Password").min(5),
+    email: yup.string().required().email(),
+    password: yup.string().required().min(5),
 })
 
 const Login = () => {
@@ -21,7 +20,7 @@ const Login = () => {
     const email = useRef();
     const password = useRef();
     const history = useHistory();
-    const [isError, setIsError] = useState(false)
+    const [isError, setIsError] = useState(false);
 
 
     const onLogin = async (data) => {
@@ -50,14 +49,16 @@ const Login = () => {
         })
     }
 
+    useEffect(()=>{
+        if(currentUser)
+        {
+            history.push("/");
+        }
+    },[currentUser])
 
-    if (currentUser) {
-        return (
-            <Redirect to="/" />
-        )
-    }
-    else {
 
+   
+   
         return (
             <div class="bg-grey-lighter min-h-screen flex flex-col bg-blue-500">
                 <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -80,24 +81,27 @@ const Login = () => {
                         }
 
                         <form onSubmit={handleSubmit(onLogin)}>
-                            {loginContent.inputs.map((input, key) => {
-                                return (
-                                    <div key={key}>
 
-
-                                        <label onDoubleClick={dbclick} class="block text-grey-darker text-sm font-bold mb-2">{input.label}</label>
+                                        <label class="block text-grey-darker text-sm font-bold mb-2">Email</label>
                                         <input class="block border border-grey-light w-full p-3 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                                            name={input.name}
-                                            type={input.type}
-                                            placeholder={input.placeholder}
+                                            name='email'
+                                            type='email'
+                                            placeholder='Email'
                                             ref={register}
-
                                         />
-                                        <p class="text-red-500 pb-2">{errors[input.name]?.message}</p>
+                                        <p class="text-red-500 pb-2">{errors.email?.message}</p>
 
-                                    </div>
-                                );
-                            })}
+                                        <label class="block text-grey-darker text-sm font-bold mb-2">Password</label>
+                                        <input class="block border border-grey-light w-full p-3 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                            name='password'
+                                            type='password'
+                                            placeholder='Password'
+                                            ref={register}
+                                        />
+                                        <p class="text-red-500 pb-2">{errors.password?.message}</p>
+
+                                   
+                              
                             <div class="mb-8 text-2xl text-center">
 
                                 <button disabled={loading} class="w-full py-3 text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50  ">Sign In</button>
@@ -125,6 +129,6 @@ const Login = () => {
 
 
         )
-    }
+
 }
 export default Login

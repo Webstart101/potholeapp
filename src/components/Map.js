@@ -4,8 +4,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Header from "../components/Header";
 //import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import firebase from '../Firebase';
-import { data } from "autoprefixer";
-
 
 // function GetData(){
 //   const [data,setData] = useState([])
@@ -63,33 +61,7 @@ const Map = () => {
     trackUserLocation: true
     });
 
-    // var geojson = {
-    //   'type': 'FeatureCollection',
-    //   'features': [
-    //   {
-    //   'type': 'Feature',
-    //   'geometry': {
-    //   'type': 'Point',
-    //   'coordinates': [-59.4561, 13.1256]
-    //   },
-    //   'properties': {
-    //   'title': 'Mapbox',
-    //   'description': 'Washington, D.C.'
-    //   }
-    //   },
-    //   {
-    //   'type': 'Feature',
-    //   'geometry': {
-    //   'type': 'Point',
-    //   'coordinates': [-58.5988, 13.1132]
-    //   },
-    //   'properties': {
-    //   'title': 'Mapbox',
-    //   'description': 'San Francisco, California'
-    //   }
-    //   }
-    //   ]
-    //   };
+    
        
     //cheney103.ckmnwlyyf22i721mo0025def8-1glu9
     //mapbox://styles/mapbox/streets-v11
@@ -151,13 +123,7 @@ var marker = new mapboxgl.Marker({
         return;
       }
     
-      var feature = features[0];
-    
-      var popup = new mapboxgl.Popup({ offset: [0, -15] })
      
-        .setLngLat(feature.geometry.coordinates)
-        .setHTML('<h3>' + data.loc+ '</h3><p>' + feature.properties.description + '</p>')
-        .addTo(map);
       
     });
 
