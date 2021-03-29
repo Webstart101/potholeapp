@@ -3,35 +3,35 @@ import { firestore } from '../auth/Firebase'
 
 const Sidebar = () => {
 
-    var ref = firestore.collection("issues")
-    const [business, setBusiness] = useState([]);
+    var ref = firestore.collection("Business")
+    const [issue, setIssue] = useState([]);
 
 
-    function getBusiness() {
+    function getIssue() {
 
         ref.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
             });
-            setBusiness(items);
+            setIssue(items);
         });
     }
 
     useEffect(() => {
-        getBusiness();
+        getIssue();
         // eslint-disable-next-line
     }, []);
 
     return (
         <div>
-            {business.map((business) => (
-                <figure key={business.id} class="md:flex m-4 bg-green-100 rounded-3xl p-6 md:p-2">
-                    <img src={business.ImageFile} alt="" class="w-18 h-18 md:w-24 md:h-auto md:rounded-xl rounded-full mx-2 my-2" />
+            {issue.map((issue) => (
+                <figure key={issue.id} class="md:flex m-4 bg-green-100 rounded-3xl p-6 md:p-2">
+                    <img src={issue.name} alt="" class="w-18 h-18 md:w-24 md:h-auto md:rounded-xl rounded-full mx-2 my-2" />
                     <div class="pt-6 md:p-8 text-center md:text-left space-y-2 shadow-xl">
                         <figcaption class="font-medium">
-                            <div class="text-blue-600 text-lg">{business.BusinessName}</div>
-                            <div class="text-gray-500 text-sm">{business.Location}</div>
+                            <div class="text-blue-600 text-lg">{issue.street}</div>
+                            {/* <div class="text-gray-500 text-sm">{business.Location}</div> */}
                         </figcaption>
                     </div>
                 </figure>
