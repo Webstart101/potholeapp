@@ -1,17 +1,25 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Header from "../components/Header";
+import { useAuth } from '../auth/Auth'
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
 
 const Map = () => {
+  const { currentUser } = useAuth()
   const mapContainer = useRef();
   const [mapCenter, setMapCenter] = useState({
     lat: -59.570655, //Lng center for Barbados
     lng: 13.193114, //Lat center for Barbados
   });
   const [zoom, setZoom] = useState(9);
+  const [showModal, setShowModal] = useState(false)
+  const [latitude, setLatitude] = useState("")
+  const [longitude, setLongitude] = useState("")
+  // const [coord, setCoord] = useState("")
+
 
   useEffect(() => {
     var bounds = [
@@ -20,6 +28,7 @@ const Map = () => {
     ];
     const map = new mapboxgl.Map({
       container: mapContainer.current,
+      // style: "mapbox://styles/mapbox/streets-v11",
       style: "mapbox://styles/mapbox/streets-v11",
       center: [mapCenter.lng, mapCenter.lat],
       zoom: zoom,
@@ -42,29 +51,42 @@ const Map = () => {
       setZoom(map.getZoom().toFixed(2));
     });
 
+
+    map.on('click', function (e) {
+      setLatitude(e.lngLat.lat)
+      setLongitude(e.lngLat.lng)
+
+    });
+
     return () => map.remove();
     //eslint-disable-next-line
   }, []);
 
+  const openModal = () => {
+    setShowModal(prev => !prev)
+
+  }
+
+
+
   return (
-    <div className="w-full flex flex-col h-screen bg-gray-300">
+    <div className="w-full flex flex-col h-screen bg-gray-300 overflow-hidden">
       <Header title="Pothole App" />
 
-      <div className="w-full flex-1 flex">
-        <div className="w-1/6 bg-white">
-          <p>Sidebar</p>
+      <div className="w-full flex-1 flex h-screen" >
+        <div className="w-2/6 bg-white overflow-auto">
+          <Sidebar/>
         </div>
         <div className="w-5/6">
-         <div className="h-full w-full" ref={mapContainer}>
-      <div className="absolute m-5 z-10 rounded bg-gray-800 bg-opacity-80 p-2 text-white">
-        Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom: {zoom}
+          <div className="h-full w-full" ref={mapContainer} onDoubleClick={openModal}>
+            <div className="absolute m-5 z-10 rounded bg-gray-800 bg-opacity-80 p-2 text-white" >
+              Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom: {zoom}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-        </div>
-      </div>  
-      </div>
 
-    
   );
 };
 
