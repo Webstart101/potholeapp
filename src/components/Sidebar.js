@@ -26,7 +26,7 @@ const Sidebar = () => {
     return (
         <div>
             {issue.map((issue) => (
-                <figure key={issue.id} class="md:flex m-4 bg-green-100 rounded-3xl p-6 md:p-2">
+                <figure key={issue.id} class="md:flex m-4 bg-white rounded-3xl p-6 md:p-2">
                     <img src={issue.ImageFile} alt="" class="w-18 h-18 md:w-24 md:h-auto md:rounded-xl rounded-none mx-2 my-2" />
                     <div class="pt-6 md:p-8 text-center md:text-left space-y-2 shadow-xl">
                         <figcaption class="font-medium">
