@@ -57,18 +57,13 @@ const Map = () => {
         <div className="w-5/6">
           <div className="h-full w-full" ref={mapContainer}>
             <div className="absolute m-5 z-10 rounded bg-gray-800 bg-opacity-80 p-2 text-white">
-              Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom: {zoom}
+              Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom:{" "}
+              {zoom}
             </div>
           </div>
         </div>
-
       </div>
     </div>
-        </div>
-      </div>  
-      </div>
-
-    
   );
 };
 
