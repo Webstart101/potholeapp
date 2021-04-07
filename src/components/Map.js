@@ -8,7 +8,7 @@ import Sidebar from "./Sidebar";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
 
 const Map = () => {
-  const { currentUser } = useAuth()
+  //const { currentUser } = useAuth()
   const mapContainer = useRef();
   const [mapCenter, setMapCenter] = useState({
     lat: -59.570655, //Lng center for Barbados
