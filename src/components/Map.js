@@ -1,25 +1,25 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useAuth } from '../auth/Auth'
+import { useAuth } from "../auth/Auth";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import PotholeModal from "./PotholeModal";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
 
 const Map = () => {
-  //const { currentUser } = useAuth()
+  const { currentUser } = useAuth();
   const mapContainer = useRef();
   const [mapCenter, setMapCenter] = useState({
     lat: -59.570655, //Lng center for Barbados
     lng: 13.193114, //Lat center for Barbados
   });
   const [zoom, setZoom] = useState(9);
-  const [showModal, setShowModal] = useState(false)
-  const [latitude, setLatitude] = useState("")
-  const [longitude, setLongitude] = useState("")
+  const [showModal, setShowModal] = useState(false);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   // const [coord, setCoord] = useState("")
-
 
   useEffect(() => {
     var bounds = [
@@ -30,7 +30,7 @@ const Map = () => {
       container: mapContainer.current,
       // style: "mapbox://styles/mapbox/streets-v11",
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [mapCenter.lng, mapCenter.lat],
+      center: [mapCenter.lat, mapCenter.lng],
       zoom: zoom,
       maxBounds: bounds,
     });
@@ -51,11 +51,9 @@ const Map = () => {
       setZoom(map.getZoom().toFixed(2));
     });
 
-
-    map.on('click', function (e) {
-      setLatitude(e.lngLat.lat)
-      setLongitude(e.lngLat.lng)
-
+    map.on("click", function (e) {
+      setLatitude(e.lngLat.lat);
+      setLongitude(e.lngLat.lng);
     });
 
     return () => map.remove();
@@ -63,30 +61,38 @@ const Map = () => {
   }, []);
 
   const openModal = () => {
-    setShowModal(prev => !prev)
-
-  }
-
-
+    setShowModal((prev) => !prev);
+  };
 
   return (
     <div className="w-full flex flex-col h-screen bg-gray-300 overflow-hidden">
-      <Header title="Pothole App" />
-
-      <div className="w-full flex-1 flex h-screen" >
+      <Header/>
+      <div className="w-full flex-1 flex h-screen">
         <div className="w-2/6 bg-white overflow-auto">
-          <Sidebar/>
+          <Sidebar />
         </div>
         <div className="w-5/6">
-          <div className="h-full w-full" ref={mapContainer} onDoubleClick={openModal}>
-            <div className="absolute m-5 z-10 rounded bg-gray-800 bg-opacity-80 p-2 text-white" >
-              Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom: {zoom}
+          <div
+            className="h-full w-full"
+            ref={mapContainer}
+            onDoubleClick={openModal}
+          >
+            <div className="absolute m-5 z-10 rounded bg-gray-800 bg-opacity-80 p-2 text-white">
+              Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom:{" "}
+              {zoom}
             </div>
           </div>
+          {currentUser && (
+            <PotholeModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              coordLat={latitude}
+              coordLng={longitude}
+            />
+          )}
         </div>
       </div>
     </div>
-
   );
 };
 
