@@ -5,47 +5,16 @@ import { useAuth } from "../auth/Auth";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import PotholeModal from "./PotholeModal";
-import { firestore } from "../auth/Firebase"
+import { firestore } from "../auth/Firebase";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
 
 const Map = () => {
   const { currentUser } = useAuth();
   const mapContainer = useRef();
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
+  const [fly, setFly] = useState();
   let map = null;
-
-  const ref = firestore.collection('issues');
-
-  useEffect(() => {
-
-    ref.onSnapshot(snapshot => {
-      const retrieve = []
-      snapshot.docs.forEach(doc => {
-
-        retrieve.push({ ...doc.data(), id: doc.id })
-
-      })
-      setData(retrieve)
-
-      retrieve.map((point) => {
-        new mapboxgl.Marker({
-        
-        color: "#FF0000",
-       draggable: false
-       })
-          .setPopup(new mapboxgl.Popup().setHTML('<div class="p-2"><div>'
-           + '<div><img src="'+point.ImageFile+'"/></div>'+ '<div class="font-bold text-indigo-900"><p>' 
-           +point.Location + '</p></div>'+point.IssueDesc +'</p></div>')) // add popup
-          .setLngLat([point.Longitude, point.Latitude])
-          .addTo(map)
-      })
-      
-      return () => ref()
-
-    });
-  }, [])
-
 
   const [mapCenter, setMapCenter] = useState({
     lat: -59.570655, //Lng center for Barbados
@@ -55,15 +24,49 @@ const Map = () => {
   const [showModal, setShowModal] = useState(false);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  // const [coord, setCoord] = useState("")
 
+  // const geolocate = new mapboxgl.GeolocateControl({
+  //   positionOptions: {
+  //     enableHighAccuracy: true,
+  //   },
+  //   trackUserLocation: true,
+  // });
 
-  const geolocate = new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true
-    },
-    trackUserLocation: true
-  });
+  const ref = firestore.collection("issues");
+
+  useEffect(() => {
+    ref.onSnapshot((snapshot) => {
+      const markers = [];
+      snapshot.docs.forEach((doc) => {
+        markers.push({ ...doc.data(), id: doc.id });
+      });
+      setData(markers);
+
+      markers.map((point) => {
+        new mapboxgl.Marker({
+          color: "#FF0000",
+          draggable: false,
+        })
+          .setPopup(
+            new mapboxgl.Popup().setHTML(
+              '<div class="p-2"><div>' +
+                '<div><img src="' +
+                point.ImageFile +
+                '"/></div>' +
+                '<div class="font-bold text-indigo-900"><p>' +
+                point.Location +
+                "</p></div>" +
+                point.IssueDesc +
+                "</p></div>"
+            )
+          ) // add popup
+          .setLngLat([point.Longitude, point.Latitude])
+          .addTo(map);
+      });
+
+      return () => ref();
+    });
+  }, []);
 
   useEffect(() => {
     var bounds = [
@@ -79,6 +82,7 @@ const Map = () => {
       maxBounds: bounds,
     });
 
+    setFly(map);
 
     // Add zoom and rotation controls to the map.
     map.addControl(new mapboxgl.NavigationControl());
@@ -92,7 +96,6 @@ const Map = () => {
       setMapCenter({
         lng: map.getCenter().lng.toFixed(4),
         lat: map.getCenter().lat.toFixed(4),
-
       });
       setZoom(map.getZoom().toFixed(2));
     });
@@ -100,25 +103,21 @@ const Map = () => {
     map.on("click", function (e) {
       setLatitude(e.lngLat.lat);
       setLongitude(e.lngLat.lng);
-    map.addControl(geolocate);
-    // Set an event listener that fires
-    // when a geolocate event occurs.
-    geolocate.on('geolocate', function () {
-      console.log('A geolocate event has occurred.')
-    });
+      // map.addControl(geolocate);
+      // // Set an event listener that fires
+      // // when a geolocate event occurs.
+      // geolocate.on("geolocate", function () {
+      //   console.log("A geolocate event has occurred.");
+      // });
 
-    map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
+      map.on("click", function (e) {
+        var features = map.queryRenderedFeatures(e.point, {});
 
+        if (!features.length) {
+          return;
+        }
       });
-
-      if (!features.length) {
-        return;
-      }
-
     });
-  })
-
 
     return () => map.remove();
     //eslint-disable-next-line
@@ -128,22 +127,21 @@ const Map = () => {
     setShowModal((prev) => !prev);
   };
 
+  const handleIssueClick = (lat, lng) => {
+    fly.flyTo({ center: [lng, lat], zoom: 15 });
+  };
+
   return (
     <div className="w-full flex flex-col h-screen bg-gray-300 overflow-hidden">
-      <Header/>
+      <Header />
       <div className="w-full flex-1 flex h-screen">
         <div className="w-2/6 bg-white overflow-auto">
-          <Sidebar />
+          <Sidebar position={handleIssueClick} />
         </div>
-        <div className="w-5/6">
-          <div
-            className="h-full w-full"
-            ref={mapContainer}
-            onDoubleClick={openModal}
-          >
+        <div className="w-5/6" onDoubleClick={openModal}>
+          <div className="h-full w-full" ref={mapContainer}>
             <div className="absolute m-5 z-10 rounded bg-gray-800 bg-opacity-80 p-2 text-white">
-              Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom:{" "}
-              {zoom}
+              Longitude: {mapCenter.lng} | Latitude: {mapCenter.lat} | Zoom:{zoom}
             </div>
           </div>
           {currentUser && (
@@ -159,6 +157,5 @@ const Map = () => {
     </div>
   );
 };
-  
 
 export default Map;
