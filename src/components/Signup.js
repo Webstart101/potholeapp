@@ -25,7 +25,7 @@ function SignUp() {
 
   useEffect(() => {
     if (currentUser) {
-      history.push("/");
+      history.push("/map");
     }
     //eslint-disable-next-line
   }, [currentUser]);
@@ -37,7 +37,7 @@ function SignUp() {
     try {
       setLoading(true);
       await signup(email, password);
-      history.push("/");
+      history.push("/map");
     } catch (error) {
       alert(error);
     }

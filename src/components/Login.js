@@ -24,7 +24,7 @@ function Login() {
 
   useEffect(() => {
     if (currentUser) {
-      history.push("/");
+      history.push("/map");
     }
   }, [currentUser]);
 
@@ -36,7 +36,7 @@ function Login() {
       setLoading(true);
       await login(email, password);
       //console.log(currentUser)
-      //history.push("/")
+      history.push("/map")
     } catch (error) {
       alert(error);
     }
