@@ -119,7 +119,7 @@ const Map = () => {
 
   return (
           <div className="w-full flex flex-col h-screen bg-gray-300 overflow-hidden">
-          <Header title="Pothole App" />
+          {/* <Header title="Pothole App" /> */}
           <div className="w-full flex-1 flex h-screen" >
             <div className="w-2/6 bg-white overflow-auto">
               Sidebar
