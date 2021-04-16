@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react"
-import { auth } from "./Firebase"
+import React, { useContext, useState, useEffect } from "react";
+import { auth } from "../auth/Firebase";
 
 const AuthContext = React.createContext()
 
@@ -37,15 +37,18 @@ export function AuthProvider({ children }) {
       console.log(error)
     }
   }
-
+  
   function resetPassword(email) {
-    try{
-      auth.sendPasswordResetEmail(email)
-    }
-    catch(error){
-      console.log(error)
-    }
+    return auth.sendPasswordResetEmail(email)
   }
+
+  // function updateEmail(email) {
+  //   return currentUser.updateEmail(email)
+  // }
+
+  // function updatePassword(password) {
+  //   return currentUser.updatePassword(password)
+  // }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -62,6 +65,8 @@ export function AuthProvider({ children }) {
     signup,
     logout,
     resetPassword,
+    // updateEmail,
+    // updatePassword
   }
 
   return (
