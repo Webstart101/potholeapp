@@ -1,12 +1,13 @@
 import React from 'react';
 import Header from "../components/Header";
+import Nature from "../images/coconut.jpg";
 
 const About = () => {
     return (
         <div className="w-full flex flex-col h-screen bg-gray-300 bg-gradient-to-b from-gray-100 to-gray-200">
             <Header title="Pothole App" />
             <div className=" flex-col w-full bg-white h-2/6">
-                <img className="object-cover h-full w-full" src="https://backroads-web.s3.amazonaws.com/images/trips/2016/slideshows/browser/MYTC-yellowstone-tetons-multisport-tour.jpg" alt="nature" />
+                <img className="object-cover h-full w-full" src={Nature} alt="nature" />
             </div>
             <div className="flex items-center justify-center h-screen ">
                 <div class="bg-white rounded-lg border shadow-lg p-10 w-6/12 absolute inset-x-auto bottom-0 h-5/6 "> 
