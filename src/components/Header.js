@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../auth/Auth";
 
-const Header = ({ title }) => {
+const Header = () => {
   const { currentUser, logout } = useAuth();
   const history = useHistory();
 
@@ -21,33 +21,33 @@ const Header = ({ title }) => {
 
   return (
     <div className="App">
-      {currentUser ? (
-        <nav className="bg-gray-800">
-          <div className="container-xl mx-auto px-2 sm:px-6 lg:px-8">
-            <div className="relative flex items-center justify-between h-16">
-              <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex-shrink-0 flex items-center">
-                  <h1 className="text-white text-2xl font-bold leading-none w-auto">
-                    {title}
-                  </h1>
-                </div>
-                <div className="hidden sm:block sm:ml-8">
-                  <div className="flex space-x-4">
-                    <a
-                      className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                      href="/"
-                    >
-                      Home
-                    </a>
-                    <a
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                      href="/about"
-                    >
-                      About
-                    </a>
-                  </div>
+      <nav className="bg-gray-800">
+        <div className="container-xl mx-auto px-2 sm:px-6 lg:px-8">
+          <div className="relative flex items-center justify-between h-16">
+            <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex-shrink-0 flex items-center">
+                <h1 className="text-white text-2xl font-bold leading-none w-auto">
+                  Road Side Report
+                </h1>
+              </div>
+              <div className="hidden sm:block sm:ml-8">
+                <div className="flex space-x-4">
+                  <a
+                    className="text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
+                    href="/"
+                  >
+                    Home
+                  </a>
+                  <a
+                    className="text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
+                    href="/about"
+                  >
+                    About
+                  </a>
                 </div>
               </div>
+            </div>
+            {currentUser ? (
               <div className="dropdown relative ml-3">
                 <div>
                   <img
@@ -76,30 +76,17 @@ const Header = ({ title }) => {
                   </ul>
                 </div>
               </div>
-            </div>
-          </div>
-        </nav>
-      ) : (
-        <nav className="bg-gray-800">
-          <div className="container-xl mx-auto px-2 sm:px-6 lg:px-8">
-            <div className="relative flex items-center justify-between h-16">
-              <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex-shrink-0 flex items-center">
-                  <h1 className="text-white text-2xl font-bold leading-none w-auto">
-                    {title}
-                  </h1>
-                </div>
-              </div>
+            ) : (
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
                 onClick={handleSignIn}
               >
                 Sign In
               </button>
-            </div>
+            )}
           </div>
-        </nav>
-      )}
+        </div>
+      </nav>
     </div>
   );
 };
