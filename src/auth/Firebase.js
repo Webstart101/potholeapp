@@ -15,11 +15,14 @@ const app = firebase.initializeApp({
 })
 
 const google = new firebase.auth.GoogleAuthProvider();
+const facebook = new firebase.auth.FacebookAuthProvider();
+const twitter = new firebase.auth.TwitterAuthProvider();
+const email = new firebase.auth.EmailAuthProvider();
 const storage = firebase.storage();
 const auth = app.auth();
 const firestore = firebase.firestore();
 const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 
 export{
-    auth, google, storage, firestore,timestamp, firebase as default
+    auth, google, facebook, twitter, email, storage, firestore, timestamp, firebase as default
 }

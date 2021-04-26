@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/Auth";
 
 const Header = () => {
@@ -9,46 +9,47 @@ const Header = () => {
   async function handleLogout() {
     try {
       await logout();
+      console.log("Signed out.")
       history.push("/");
     } catch (error) {
       alert(error);
     }
   }
 
-  function handleSignIn() {
-    history.push("/login");
-  }
-
   return (
-    <div className="App">
-      <nav className="bg-gray-800">
-        <div className="container-xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between h-16">
+    <nav className="bg-gradient-to-tl from-black via-gray-900 to-black">
+      <div className="container-xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div className="relative flex items-center justify-between h-16">
+          <div className="flex-shrink-0 flex items-center">
+            <Link to="/"><h1 className="text-white text-2xl font-bold leading-none w-auto">
+              Roadside Report
+            </h1></Link>
+          </div>
+          {currentUser ? (
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-              <div className="flex-shrink-0 flex items-center">
-                <h1 className="text-white text-2xl font-bold leading-none w-auto">
-                  Road Side Report
-                </h1>
-              </div>
               <div className="hidden sm:block sm:ml-8">
                 <div className="flex space-x-4">
                   <a
-                    className="text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-300 px-3 py-4 rounded-md text-sm font-medium"
                     href="/"
                   >
                     Home
                   </a>
                   <a
-                    className="text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-300 px-3 py-4 rounded-md text-sm font-medium"
+                    href="/map"
+                  >
+                    Map
+                  </a>
+                  <a
+                    className="text-gray-300 px-3 py-4 rounded-md text-sm font-medium"
                     href="/about"
                   >
                     About
                   </a>
                 </div>
               </div>
-            </div>
-            {currentUser ? (
-              <div className="dropdown relative ml-3">
+              <div className="dropdown relative ml-auto">
                 <div>
                   <img
                     className="inline object-cover w-12 h-12 mr-2 rounded-full"
@@ -62,10 +63,10 @@ const Header = () => {
                       className="hover:bg-gray-400 hover:text-gray-800 rounded-t py-2 px-4 block whitespace-no-wrap"
                       href="/profile"
                     >
-                      <li className="">Profile</li>
+                      <li>Profile</li>
                     </a>
 
-                    <li className="">
+                    <li>
                       <span
                         className="w-full text-left rounded-b hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                         onClick={handleLogout}
@@ -76,18 +77,19 @@ const Header = () => {
                   </ul>
                 </div>
               </div>
-            ) : (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-                onClick={handleSignIn}
-              >
-                Sign In
-              </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="flex order-2">
+              <Link to="/login">
+                <button className="px-7 py-1 mr-2 w-25 border rounded text-white bg-purple-700 border-transparent hover:bg-purple-900 transition">
+                  Login
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 };
 
