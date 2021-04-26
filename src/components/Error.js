@@ -11,8 +11,8 @@ const Error = () => {
              <br />Click on the button below to return to the homepage.</p>
                 <div className="pt-10 flex justify-center">
                     <Link to="/">
-                        <button class="bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 
-                                        px-4 rounded-full">Back to Home</button>
+                        <button className="bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 
+                                        px-4 rounded-full">Back to Home</button> 
                     </Link>
 
                 </div>
