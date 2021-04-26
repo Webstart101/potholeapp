@@ -22,7 +22,7 @@ function ResetPassword() {
 
   useEffect(() => {
     if (currentUser) {
-      history.push("/map");
+      history.push("/");
     }
   }, [currentUser]);
 

@@ -9,6 +9,7 @@ const Header = () => {
   async function handleLogout() {
     try {
       await logout();
+      console.log("Signed out.")
       history.push("/");
     } catch (error) {
       alert(error);
@@ -20,9 +21,9 @@ const Header = () => {
       <div className="container-xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
-            <h1 className="text-white text-2xl font-bold leading-none w-auto">
+            <Link to="/"><h1 className="text-white text-2xl font-bold leading-none w-auto">
               Roadside Report
-            </h1>
+            </h1></Link>
           </div>
           {currentUser ? (
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
@@ -30,9 +31,15 @@ const Header = () => {
                 <div className="flex space-x-4">
                   <a
                     className="text-gray-300 px-3 py-4 rounded-md text-sm font-medium"
-                    href="/map"
+                    href="/"
                   >
                     Home
+                  </a>
+                  <a
+                    className="text-gray-300 px-3 py-4 rounded-md text-sm font-medium"
+                    href="/map"
+                  >
+                    Map
                   </a>
                   <a
                     className="text-gray-300 px-3 py-4 rounded-md text-sm font-medium"
@@ -56,10 +63,10 @@ const Header = () => {
                       className="hover:bg-gray-400 hover:text-gray-800 rounded-t py-2 px-4 block whitespace-no-wrap"
                       href="/profile"
                     >
-                      <li className="">Profile</li>
+                      <li>Profile</li>
                     </a>
 
-                    <li className="">
+                    <li>
                       <span
                         className="w-full text-left rounded-b hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                         onClick={handleLogout}
@@ -76,11 +83,6 @@ const Header = () => {
               <Link to="/login">
                 <button className="px-7 py-1 mr-2 w-25 border rounded text-white bg-purple-700 border-transparent hover:bg-purple-900 transition">
                   Login
-                </button>
-              </Link>
-              <Link to="/signup">
-                <button className="px-5 py-1 w-25 border rounded text-white bg-purple-700 border-transparent hover:bg-purple-900 transition">
-                  Sign Up
                 </button>
               </Link>
             </div>
