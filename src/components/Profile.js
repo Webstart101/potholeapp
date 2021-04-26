@@ -15,30 +15,30 @@ const Profile = () => {
       alert(error);
     }
   }
-  
+
   return (
     <div>
       <Header />
-      <div class="flex items-center h-screen w-full justify-center bg-gradient-to-tl from-blue-600 via-blue-400 to-blue-600">
-        <div class="max-w-md">
-          <div class="bg-white shadow-xl rounded-lg py-3">
-            <div class="photo-wrapper p-2 shadow-sm">
+      <div className="flex items-center h-screen w-full justify-center bg-gradient-to-tl from-blue-600 via-blue-400 to-blue-600">
+        <div className="max-w-md">
+          <div className="bg-white shadow-xl rounded-lg py-3">
+            <div className="photo-wrapper p-2 shadow-sm">
               <img
-                class="w-32 h-32 rounded-full mx-auto"
+                className="w-32 h-32 rounded-full mx-auto"
                 src={currentUser.photoURL}
                 alt="Profile Picture"
               />
             </div>
             <hr />
-            <div class="p-10">
-              <h3 class="text-center text-xl text-gray-900 font-medium leading-8">
+            <div className="p-10">
+              <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
                 {currentUser.displayName}
               </h3>
-              <table class="text-xs my-3">
+              <table className="text-xs my-3">
                 <tbody>
                   <tr>
-                    <td class="px-2 py-2 text-gray-500 font-semibold">Email</td>
-                    <td class="px-2 py-2">{currentUser.email}</td>
+                    <td className="px-2 py-2 text-gray-500 font-semibold">Email</td>
+                    <td className="px-2 py-2">{currentUser.email}</td>
                   </tr>
                 </tbody>
               </table>
