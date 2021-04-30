@@ -15,6 +15,8 @@ const Map = () => {
   const [data, setData] = useState([]);
   const [fly, setFly] = useState();
   let map = null;
+  let popup=null;
+  const [pop,setpop]=useState()
 
   const [mapCenter, setMapCenter] = useState({
     lat: -59.570655, //Lng center for Barbados
@@ -48,12 +50,12 @@ const Map = () => {
           draggable: false,
         })
           .setPopup(
-            new mapboxgl.Popup().setHTML(
-              '<div class="p-2"><div>' +
+            popup = new mapboxgl.Popup().setHTML(
+              '<div className="p-2"><div>' +
                 '<div><img src="' +
                 point.ImageFile +
                 '"/></div>' +
-                '<div class="font-bold text-indigo-900"><p>' +
+                '<div className="font-bold text-indigo-900"><p>' +
                 point.Location +
                 "</p></div>" +
                 point.IssueDesc +
@@ -62,6 +64,8 @@ const Map = () => {
           ) // add popup
           .setLngLat([point.Longitude, point.Latitude])
           .addTo(map);
+          setpop(popup)
+
       });
 
       return () => ref();
@@ -127,8 +131,21 @@ const Map = () => {
     setShowModal((prev) => !prev);
   };
 
-  const handleIssueClick = (lat, lng) => {
+  const handleIssueClick = (lat, lng, img, locat, desc) => {
     fly.flyTo({ center: [lng, lat], zoom: 15 });
+
+    pop.setHTML(
+      '<div className="p-2"><div>' +
+        '<div><img src="' +
+        img +
+        '"/></div>' +
+        '<div className="font-bold text-indigo-900"><p>' +
+        locat +
+        "</p></div>" +
+        desc +
+        "</p></div>"
+    ).setLngLat([lng,lat]).addTo(fly)
+    
   };
 
   return (
