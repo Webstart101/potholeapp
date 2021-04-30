@@ -64,8 +64,8 @@ const Map = () => {
           ) // add popup
           .setLngLat([point.Longitude, point.Latitude])
           .addTo(map);
-
           setpop(popup)
+
       });
 
       return () => ref();
